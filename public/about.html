@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | RAQkid Webpage</title>
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Navbar -->
+  <header>
+    <div class="menu-btn" onclick="toggleMenu()">
+      ☰ Menu
+    </div>
+    <div class="ping" id="pingDisplay">PING: -- ms</div>
+  </header>
+
+  <!-- Sidebar Menu -->
+  <nav id="sidebar" class="sidebar">
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="botinfo.html">Bot Info</a></li>
+    </ul>
+  </nav>
+
+<!-- Main Content -->
+  <main class="about-container">
+    <h1>About Me</h1>
+
+    <section class="info-section">
+      <h2>Informations</h2>
+      <ul>
+        <li><b>Name:</b> John Raqkid</li>
+        <li><b>Age:</b> +18</li>
+        <li><b>Gender:</b> Male</li>
+        <li><b>Pronouns:</b> He/Him</li>
+        <li><b>Mother Tongue:</b> Tagalog</li>
+      </ul>
+    </section>
+
+    <section class="info-section">
+      <h2>Others</h2>
+      <ul>
+        <li><b>Job:</b> Discord/Telegram/Facebook Bot Developer, Web Developer, API Maker, Game Developer, etc.</li>
+        <li><b>Languages / Codes:</b> NodeJS, C++, C+, C#, TypeScript, JS, HTML, CSS, Python (& Unity)</li>
+        <li><b>Net Worth:</b> $150 - $500 <i>(Not actually)</i></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    Powered by NodeJS | Made by Mangthomas
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Sidebar Toggle
+    function toggleMenu() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+
+    // Simulated Ping Check
+    function updatePing() {
+      const ping = Math.floor(Math.random() * 500) + 1;
+      const pingDisplay = document.getElementById("pingDisplay");
+      pingDisplay.textContent = `PING: ${ping} ms`;
+
+      // Change color based on ping
+      if (ping <= 99) {
+        pingDisplay.style.color = "#00ff7f"; // Green
+      } else if (ping <= 199) {
+        pingDisplay.style.color = "#FFD700"; // Yellow
+      } else {
+        pingDisplay.style.color = "#FF4500"; // Red
+      }
+    }
+    setInterval(updatePing, 1000);
+  </script>
+</body>
+</html>

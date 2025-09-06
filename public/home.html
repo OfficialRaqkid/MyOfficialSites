@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAQkid Webpage</title>
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Top Navbar -->
+  <header>
+    <div class="menu-btn" onclick="toggleMenu()">
+      ☰ Menu
+    </div>
+    <div class="ping" id="pingDisplay">PING: -- ms</div>
+  </header>
+
+  <!-- Sidebar Menu -->
+  <nav id="sidebar" class="sidebar">
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="botinfo.html">Bot Info</a></li>
+    </ul>
+  </nav>
+
+  <!-- Centered Main Content -->
+  <main>
+    <h1>Welcome to RAQkid Webpage</h1>
+    <h3>Discord Links</h3>
+    <button class="discord-btn" onclick="window.location.href='https://discord.com/invite/83zbj8v7br'">
+      Join TropaVerse PH
+    </button>
+
+    <button class="bot-btn"
+      onclick="window.location.href='https://discord.com/oauth2/authorize?client_id=1404063765577601024&scope=bot&permissions=545394261247'">
+      Invite My Bot (Axentra)
+    </button>
+    <br>
+    <h3>Raqkid Sites</h3>
+
+    <button class="raqkid-btn"
+      onclick="window.location.href='raqkidspeedtest.html'">
+      Raqkid SpeedTest
+    </button>
+
+    COMING SOON...
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    Powered by NodeJS | Made by Mangthomas
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Sidebar Toggle
+    function toggleMenu() {
+      document.getElementById("sidebar").classList.toggle("active");
+    }
+
+    // Simulated Ping Check
+    function updatePing() {
+      const ping = Math.floor(Math.random() * 500) + 1;
+      const pingDisplay = document.getElementById("pingDisplay");
+      pingDisplay.textContent = `PING: ${ping} ms`;
+
+      // Change color based on ping
+      if (ping <= 99) {
+        pingDisplay.style.color = "#00ff7f"; // Green
+      } else if (ping <= 199) {
+        pingDisplay.style.color = "#FFD700"; // Yellow
+      } else {
+        pingDisplay.style.color = "#FF4500"; // Red
+      }
+    }
+    setInterval(updatePing, 1000);
+  </script>
+</body>
+</html>
