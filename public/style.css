@@ -1,0 +1,261 @@
+/* Reset Default Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Animated Background */
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: linear-gradient(270deg, #000000, #0a0a2a, #001f3f);
+  background-size: 600% 600%;
+  animation: wave 12s ease infinite;
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background Wave Animation */
+@keyframes wave {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Menu Button */
+.menu-btn {
+  font-size: 22px;
+  cursor: pointer;
+  padding: 8px 12px;
+  background-color: #1e90ff;
+  color: white;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+.menu-btn:hover {
+  background-color: #4682b4;
+}
+
+/* Ping Display */
+.ping {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px;
+  width: 200px;
+  height: 100%;
+  background-color: #111;
+  padding-top: 60px;
+  transition: 0.3s;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+.sidebar.active {
+  left: 0;
+}
+.sidebar ul {
+  list-style: none;
+}
+.sidebar ul li {
+  padding: 12px;
+}
+.sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  display: block;
+  transition: 0.3s;
+}
+.sidebar ul li a:hover {
+  background-color: #1e90ff;
+  padding-left: 10px;
+}
+
+/* Center Main Content */
+main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Buttons */
+.discord-btn, .bot-btn {
+  padding: 12px 18px;
+  margin: 10px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+.discord-btn {
+  background-color: #5865F2;
+  color: white;
+}
+.discord-btn:hover {
+  background-color: #4752c4;
+}
+.bot-btn {
+  background-color: #57F287;
+  color: black;
+}
+.bot-btn:hover {
+  background-color: #3fc46b;
+}
+
+/* Footer */
+footer {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* About Page Styling */
+.about-container {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.8);
+  text-align: left;
+  color: white;
+}
+
+.about-container h1 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 28px;
+  color: #1e90ff;
+  text-shadow: 0 0 5px #1e90ff, 0 0 10px #0000ff;
+}
+
+.info-section {
+  margin-bottom: 20px;
+}
+
+.info-section h2 {
+  color: #57f287;
+  margin-bottom: 8px;
+  text-shadow: 0 0 5px #57f287, 0 0 10px #00ff9d;
+}
+
+.info-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.info-section ul li {
+  padding: 6px 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+
+/* Bot Page Button Style */
+.about-container .discord-btn {
+  margin-top: 10px;
+  background-color: #5865f2;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease-in-out;
+}
+
+.about-container .discord-btn:hover {
+  background-color: #4752c4;
+  transform: scale(1.05);
+}
+
+
+/* Contact Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+label {
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+input, textarea {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+textarea {
+  resize: none;
+}
+
+.discord-btn {
+  background-color: #5865f2;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease-in-out;
+}
+
+.discord-btn:hover {
+  background-color: #4752c4;
+  transform: scale(1.05);
+}
+
+.raqkid-btn {
+  background-color: #800080;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s ease-in-out;
+}
