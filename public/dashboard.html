@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="/logo.png">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <button class="menu-toggle">☰ Menu</button>
+
+  <nav class="menu">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/about">About</a>
+    <a href="/botinfo">Bot Info</a>
+    <a href="/contact">Contact</a>
+  </nav>
+
+  <div class="container">
+    <h1>Welcome to RAQkid Official Website</h1>
+    <p>In the first place, this is the dashboard page.</p>
+    <br>
+    <br>
+    <p>Welcome to the Axentra Dashboard — your centralized control panel built with Node.js, Express, and pure HTML/JS/CSS. This interface is crafted for speed, clarity, and a modern neon aesthetic; it gives you a single place to manage bots, view live stats, and access support tools without noise or clutter.<br>
+<br>
+This website is powered by Node.js on the backend and uses standard HTML, vanilla JavaScript, and CSS for the frontend. The server serves static assets and routes cleanly so each page (Dashboard, About, Bot Info, Contact) loads fast and reliably. The architecture keeps logic separated: Node/Express handles routing and static delivery, while the front end focuses on UI, animations, and user interactions.<br>
+<br>
+Features you'll find here:<br>
+• Real-time-feel dashboard layout for quick access to bot controls and analytics.<br>
+• Dedicated Bot Info page with name, prefix, command categories, and rough server/user stats.<br>
+• Unified navigation and a responsive sidebar so everything works smoothly on phones, tablets, and desktops.<br>
+• Contact form with client-side validation and friendly UX that’s ready to connect to a backend webhook or API.<br>
+• A themed 404 page so misdirected links remain graceful and helpful.<br>
+<br>
+Design & UX notes:<br>
+• The interface uses a glassy, neon container to keep content readable over an animated background without sacrificing performance.<br>
+• Accessibility and responsiveness were prioritized: scalable type, reachable controls, and a collapsible menu to make mobile navigation frictionless.<br>
+• Visual feedback is provided for key actions (button hover/glow, form submission status) so users always know what happened after they interact.<br>
+<br>
+Maintenance & extensibility:<br>
+• To add new pages or bot endpoints, create a new route and corresponding static HTML file; the static server will serve it automatically.<br>
+• The contact form can be wired to any webhook or REST endpoint for instant notifications (Discord webhook, email API, or custom backend).<br>
+• The CSS is modular and centralized — tweak variables, add components, or swap the theme without touching server logic.<br>
+<br>
+Security & performance tips:<br>
+• Always sanitize and validate any data sent from the frontend before saving or forwarding it on the server.<br>
+• Serve the site over HTTPS in production and set appropriate HTTP headers (CSP, HSTS) to harden the app.<br>
+• Use a process manager (pm2, systemd) for Node and enable gzip compression and caching headers for static assets to minimize latency.<br>
+<br>
+Credits & contact:<br>
+• Built and maintained by Raqkidsss — developer, bot-maker, and UI tinkerer. For feature requests, bug reports, or collaboration, use the Contact page or the provided support links.<br>
+• Quick start: run the Node server, drop your HTML/CSS/JS into the public folder, and update routes as needed — the rest will work out of the box.<br>
+<br>
+Thanks for choosing Axentra — this dashboard is designed to be simple to run, easy to extend, and pleasant to use. If you want this text adapted into multiple short status notices (e.g., welcome banner, system status, update log), tell me which ones and I’ll split and tailor them.
+</p>
+  </div>
+
+  <footer>
+    <p>&copy; Designed by RAQkid 2025</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
