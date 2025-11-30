@@ -1,5 +1,6 @@
 // server.js
 const express = require("express");
+const nodemailer = require('nodemailer');
 const path = require("path");
 
 const app = express();
@@ -7,6 +8,10 @@ const PORT = 3000;
 
 // Serve static files (HTML, CSS, JS, etc.)
 app.use(express.static(path.join(__dirname, "public")));
+
+// Middleware to parse JSON and URL-encoded data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Root route → dashboard.html
 app.get("/", (req, res) => {
@@ -24,6 +29,35 @@ app.get("/:page", (req, res, next) => {
   res.sendFile(pagePath, (err) => {
     if (err) next(); // If not found → go to 404 handler
   });
+});
+
+// POST route to handle contact form submission
+app.post('/send-message', async (req, res) => {
+  const { name, email, message } = req.body;
+
+  let transporter = nodemailer.createTransport({
+      host: 'node64.lunes.host',
+      port: 3198,
+      secure: false, // no TLS
+      tls: {
+          rejectUnauthorized: false // allow self-signed / no cert
+      }
+  });
+
+  try {
+      let info = await transporter.sendMail({
+          from: '"Raqkid505" <sender@raqkidmail.com>',
+          to: 'tester@raqkidmail.com', // must be a recipient in your hosted domain
+          subject: 'Contacts in Vercel.app',
+          text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
+      });
+
+      console.log('Message sent.');
+      res.status(200).send('Message sent successfully!');
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Error sending message.');
+  }
 });
 
 // 404 handler (invalid route)
