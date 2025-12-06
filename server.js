@@ -32,7 +32,7 @@ app.get("/:page", (req, res, next) => {
 });
 
 app.get("/projects/:page", (req, res, next) => {
-  const pagePath = path.join(__dirname, "public", "projects", `${req.params.page}.html`);
+  const pagePath = path.join(__dirname, "public", `${req.params.page}.html`);
   res.sendFile(pagePath, (err) => {
     if (err) next(); // If not found → go to 404 handler
   });
