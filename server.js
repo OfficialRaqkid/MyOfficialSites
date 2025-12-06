@@ -13,6 +13,12 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static files (CSS, JS, images, etc.)
 app.use(express.static(path.join(__dirname, "public")));
 
+// Redirect /file.html → /file (pretty URLs)
+app.get("/*.html", (req, res) => {
+  const requestedPage = req.path.replace(".html", "");
+  res.redirect(requestedPage);
+});
+
 // Home route → dashboard.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "dashboard.html"));
@@ -24,7 +30,7 @@ app.get("/*", (req, res, next) => {
   const filePath = path.join(__dirname, "public", requestedPath + ".html");
 
   res.sendFile(filePath, (err) => {
-    if (err) next(); // if file doesn't exist, move to 404 handler
+    if (err) next(); // if file doesn't exist, go to 404
   });
 });
 
@@ -35,10 +41,8 @@ app.post('/send-message', async (req, res) => {
   let transporter = nodemailer.createTransport({
       host: 'node64.lunes.host',
       port: 3198,
-      secure: false, // no TLS
-      tls: {
-          rejectUnauthorized: false // allow self-signed / no cert
-      }
+      secure: false,
+      tls: { rejectUnauthorized: false }
   });
 
   try {
@@ -57,7 +61,7 @@ app.post('/send-message', async (req, res) => {
   }
 });
 
-// 404 handler for non-existent routes
+// 404 handler
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
 });
