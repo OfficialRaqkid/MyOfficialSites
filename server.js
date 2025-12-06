@@ -6,31 +6,28 @@ const path = require("path");
 const app = express();
 const PORT = 3000;
 
+// Serve static files (HTML, CSS, JS, etc.)
+app.use(express.static(path.join(__dirname, "public")));
+
 // Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files (CSS, JS, images, etc.)
-app.use(express.static(path.join(__dirname, "public")));
-
-// Redirect /file.html → /file (pretty URLs)
-app.get("/*.html", (req, res) => {
-  const requestedPage = req.path.replace(".html", "");
-  res.redirect(requestedPage);
-});
-
-// Home route → dashboard.html
+// Root route → dashboard.html
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "dashboard.html"));
 });
 
-// Pretty URL routing for HTML files in any folder
-app.get("/*", (req, res, next) => {
-  const requestedPath = req.path; // e.g., /project/repo
-  const filePath = path.join(__dirname, "public", requestedPath + ".html");
+// Redirect any /something.html → /something
+app.get("/:page.html", (req, res) => {
+  res.redirect(`/${req.params.page}`);
+});
 
-  res.sendFile(filePath, (err) => {
-    if (err) next(); // if file doesn't exist, go to 404
+// Serve routes like /about → about.html
+app.get("/:page", (req, res, next) => {
+  const pagePath = path.join(__dirname, "public", `${req.params.page}.html`);
+  res.sendFile(pagePath, (err) => {
+    if (err) next(); // If not found → go to 404 handler
   });
 });
 
@@ -41,14 +38,16 @@ app.post('/send-message', async (req, res) => {
   let transporter = nodemailer.createTransport({
       host: 'node64.lunes.host',
       port: 3198,
-      secure: false,
-      tls: { rejectUnauthorized: false }
+      secure: false, // no TLS
+      tls: {
+          rejectUnauthorized: false // allow self-signed / no cert
+      }
   });
 
   try {
-      await transporter.sendMail({
+      let info = await transporter.sendMail({
           from: '"Raqkid505" <sender@raqkidmail.com>',
-          to: 'tester@raqkidmail.com',
+          to: 'tester@raqkidmail.com', // must be a recipient in your hosted domain
           subject: 'Contacts in Vercel.app',
           text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
       });
@@ -61,7 +60,7 @@ app.post('/send-message', async (req, res) => {
   }
 });
 
-// 404 handler
+// 404 handler (invalid route)
 app.use((req, res) => {
   res.status(404).sendFile(path.join(__dirname, "public", "404.html"));
 });
