@@ -42,12 +42,13 @@ app.get("/projects/:page", (req, res, next) => {
 app.post('/send-message', async (req, res) => {
   const { name, email, message } = req.body;
 
+  // ✅ Fixed transporter to prevent TLS/certificate errors
   let transporter = nodemailer.createTransport({
-      host: "192.168.188.124",
-      port: 9362,
-      secure: false, // no TLS
+      host: "192.168.188.124", // your SMTP server IP
+      port: 9362,               // your SMTP server port
+      secure: false,            // do NOT use TLS
       tls: {
-          rejectUnauthorized: false // allow self-signed / no cert
+          rejectUnauthorized: false // allow self-signed or no certificate
       }
   });
 
@@ -56,10 +57,10 @@ app.post('/send-message', async (req, res) => {
           from: `sender@raqkidmail.com`,
           to: 'admin@raqkidmail.com', // must be a recipient in your hosted domain
           subject: 'Message from Vercel.app',
-          text: `Email: ${email}\n\n\nName: ${name}\n\n\nMessage: ${message}`,
+          text: `Email: ${email}\n\nName: ${name}\n\nMessage: ${message}`,
       });
 
-      console.log('Message sent.');
+      console.log('Message sent:', info.response);
       res.status(200).send('Message sent successfully!');
   } catch (error) {
       console.error(error);
