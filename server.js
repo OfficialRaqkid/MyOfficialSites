@@ -54,10 +54,10 @@ app.post('/send-message', async (req, res) => {
 
   try {
       let info = await transporter.sendMail({
-          from: email,
+          from: 'sender@raqkidmail.com',
           to: 'admin@raqkidmail.com', // must be a recipient in your hosted domain
           subject: 'Message from Vercel.app',
-          text: `Name: ${name}\n\n\nMessage: ${message}`,
+          text: `Name: ${name}\n\nEmail: ${email}\n\nMessage: ${message}`,
       });
 
       console.log('Message sent:', info.response);
