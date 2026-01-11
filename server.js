@@ -43,7 +43,7 @@ app.post('/send-message', async (req, res) => {
   const { name, email, message } = req.body;
 
   let transporter = nodemailer.createTransport({
-      host: '192.168.188.124',
+      host: "192.168.188.124",
       port: 9362,
       secure: false, // no TLS
       tls: {
@@ -53,10 +53,10 @@ app.post('/send-message', async (req, res) => {
 
   try {
       let info = await transporter.sendMail({
-          from: `"${name}" <sender@raqkidmail.com>`,
+          from: `sender@raqkidmail.com`,
           to: 'admin@raqkidmail.com', // must be a recipient in your hosted domain
           subject: 'Message from Vercel.app',
-          text: `Email: ${email}\n\n\nMessage: ${message}`,
+          text: `Email: ${email}\n\n\nName: ${name}\n\n\nMessage: ${message}`,
       });
 
       console.log('Message sent.');
