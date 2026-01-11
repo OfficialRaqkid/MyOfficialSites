@@ -44,8 +44,8 @@ app.post('/send-message', async (req, res) => {
 
   // ✅ Fixed transporter to prevent TLS/certificate errors
   let transporter = nodemailer.createTransport({
-      host: "192.168.188.124", // your SMTP server IP
-      port: 9362,               // your SMTP server port
+      host: "n2.flyxnodes.xyz", // your SMTP server IP
+      port: 10101,               // your SMTP server port
       secure: false,            // do NOT use TLS
       tls: {
           rejectUnauthorized: false // allow self-signed or no certificate
