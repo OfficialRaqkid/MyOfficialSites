@@ -43,7 +43,7 @@ app.post('/send-message', async (req, res) => {
   const { name, email, message } = req.body;
 
   let transporter = nodemailer.createTransport({
-      host: 'localhost',
+      host: '192.168.188.124',
       port: 9362,
       secure: false, // no TLS
       tls: {
