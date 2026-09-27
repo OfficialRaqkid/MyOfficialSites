@@ -1,4 +1,6 @@
-/* === RESET === */
+/* ==========================================================================
+   RESET
+   ========================================================================== */
 * {
   margin: 0;
   padding: 0;
@@ -6,85 +8,148 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* === BODY & BACKGROUND === */
+:root {
+  --neon: #00e5ff;
+  --neon-soft: #66f2ff;
+  --neon-dim: rgba(0, 229, 255, 0.3);
+  --bg-deep: #060b14;
+  --bg-mid: #0c1a2b;
+  --glass: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(0, 229, 255, 0.25);
+  --text-main: #f0fbff;
+  --text-soft: #cdeffb;
+  --max-content: 1200px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 html, body {
   height: 100%;
+}
+
+/* ==========================================================================
+   BODY & GLOWING ANIMATED BACKGROUND
+   ========================================================================== */
+body {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-}
-
-body {
-  color: #fff;
-  background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+  color: var(--text-main);
+  background: var(--bg-deep);
+  position: relative;
   overflow-x: hidden;
-  animation: bgmove 12s infinite alternate ease-in-out;
 }
 
-@keyframes bgmove {
-  0% { background-position: 0% 50%; background-size: 200% 200%; }
-  50% { background-position: 100% 50%; background-size: 220% 220%; }
-  100% { background-position: 0% 50%; background-size: 200% 200%; }
-}
-
-/* === PARTICLE GRID EFFECT === */
-body::before, body::after {
+/* Deep animated gradient wash */
+body::before {
   content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px);
-  background-size: 50px 50px;
-  animation: float 10s linear infinite;
-  z-index: 0;
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background: linear-gradient(125deg, #050a14, #0b1c2f, #06283f, #0d3b52, #06131f);
+  background-size: 300% 300%;
+  animation: bgFlow 18s ease-in-out infinite;
 }
 
+@keyframes bgFlow {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating glow orbs — the "glowing blue" effect */
 body::after {
-  animation-direction: reverse;
-  opacity: 0.3;
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.25), transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(0, 140, 255, 0.22), transparent 38%),
+    radial-gradient(circle at 50% 80%, rgba(0, 255, 234, 0.18), transparent 42%),
+    radial-gradient(circle at 90% 90%, rgba(0, 100, 255, 0.2), transparent 40%);
+  background-repeat: no-repeat;
+  animation: orbDrift 14s ease-in-out infinite alternate;
+  filter: blur(10px);
 }
 
-@keyframes float {
+@keyframes orbDrift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(2%, -3%, 0) scale(1.08); }
+  100% { transform: translate3d(-2%, 3%, 0) scale(1); }
+}
+
+/* Subtle particle grid overlay */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 46px 46px;
+  animation: floatGrid 22s linear infinite;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@keyframes floatGrid {
   from { background-position: 0 0; }
-  to { background-position: 50px 50px; }
+  to   { background-position: 46px 46px; }
 }
 
-/* === MENU BUTTON === */
+@media (prefers-reduced-motion: reduce) {
+  body::before, body::after, .particles {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   MENU BUTTON
+   ========================================================================== */
 .menu-toggle {
   position: fixed;
   top: 20px;
   left: 20px;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(10px);
-  border: 2px solid #00ffff;
-  color: #00ffff;
+  background: rgba(6, 14, 24, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid var(--neon);
+  color: var(--neon);
   font-size: 18px;
-  border-radius: 8px;
-  padding: 10px 15px;
+  border-radius: 10px;
+  padding: 10px 16px;
   cursor: pointer;
   z-index: 100;
-  transition: all 0.3s;
+  transition: all 0.3s ease;
 }
 
-.menu-toggle:hover {
+.menu-toggle:hover,
+.menu-toggle:focus-visible {
   color: #fff;
-  background: rgba(0,255,255,0.1);
-  box-shadow: 0 0 15px #00ffff;
+  background: rgba(0, 229, 255, 0.12);
+  box-shadow: 0 0 18px var(--neon);
+  outline: none;
 }
 
-/* === SIDEBAR MENU === */
+/* ==========================================================================
+   SIDEBAR MENU
+   ========================================================================== */
 .menu {
   position: fixed;
   top: 0;
-  left: -260px;
-  width: 240px;
+  left: -280px;
+  width: 260px;
   height: 100%;
-  background: rgba(0,0,0,0.7);
-  backdrop-filter: blur(20px);
-  box-shadow: 5px 0 25px rgba(0,255,255,0.3);
-  border-right: 2px solid rgba(0,255,255,0.3);
+  background: rgba(4, 10, 18, 0.75);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  box-shadow: 5px 0 30px rgba(0, 229, 255, 0.25);
+  border-right: 2px solid rgba(0, 229, 255, 0.25);
   transition: left 0.4s ease;
   z-index: 99;
-  padding-top: 80px;
+  padding-top: 90px;
 }
 
 .menu.open {
@@ -93,88 +158,111 @@ body::after {
 
 .menu a {
   display: block;
-  padding: 15px 20px;
-  color: #00ffff;
+  padding: 16px 22px;
+  color: var(--neon);
   text-decoration: none;
   font-weight: 600;
-  transition: 0.3s;
+  letter-spacing: 0.3px;
+  transition: 0.25s ease;
+  border-left: 3px solid transparent;
 }
 
-.menu a:hover {
+.menu a:hover,
+.menu a:focus-visible {
   color: #fff;
-  background: rgba(0,255,255,0.2);
-  text-shadow: 0 0 10px #00ffff;
+  background: rgba(0, 229, 255, 0.15);
+  border-left-color: var(--neon);
+  text-shadow: 0 0 10px var(--neon);
 }
 
-/* === MAIN CONTAINER === */
+/* ==========================================================================
+   MAIN CONTAINER — desktop-first, scales down gracefully
+   ========================================================================== */
 .container {
   position: relative;
   z-index: 1;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(0,255,255,0.3);
-  box-shadow: 0 0 25px rgba(0,255,255,0.2);
-  border-radius: 16px;
-  padding: 40px;
-  max-width: 900px;
-  margin: 140px auto 100px auto;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.18), inset 0 0 40px rgba(0, 229, 255, 0.03);
+  border-radius: 18px;
+  padding: 48px;
+  width: min(92%, var(--max-content));
+  margin: 140px auto 120px auto;
   text-align: center;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   flex: 1;
 }
 
 .container:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 0 40px rgba(0,255,255,0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 0 50px rgba(0, 229, 255, 0.3), inset 0 0 40px rgba(0, 229, 255, 0.05);
 }
 
-/* === HEADINGS === */
+/* Optional desktop grid helper for multi-column content sections */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  text-align: left;
+  margin-top: 20px;
+}
+
+/* ==========================================================================
+   HEADINGS
+   ========================================================================== */
 h1 {
-  font-size: 2.6em;
-  text-shadow: 0 0 25px #00ffff;
+  font-size: clamp(2em, 4vw, 2.8em);
+  text-shadow: 0 0 25px var(--neon);
   margin-bottom: 25px;
   letter-spacing: 1px;
 }
 
 h2 {
-  font-size: 1.6em;
-  color: #00ffff;
+  font-size: clamp(1.3em, 2.5vw, 1.7em);
+  color: var(--neon);
   margin-bottom: 15px;
-  text-shadow: 0 0 10px #00ffff;
-  border-bottom: 1px solid rgba(0,255,255,0.3);
+  text-shadow: 0 0 10px var(--neon);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.3);
   display: inline-block;
-  padding-bottom: 5px;
+  padding-bottom: 6px;
 }
 
-/* === PARAGRAPH & INFO STYLING === */
+/* ==========================================================================
+   PARAGRAPH & INFO STYLING
+   ========================================================================== */
 p {
   font-size: 1.1em;
-  color: #e0f7ff;
+  color: var(--text-soft);
   margin-bottom: 10px;
+  line-height: 1.6;
 }
 
 .info p {
   margin: 8px 0;
-  color: #e0f7ff;
+  color: var(--text-soft);
 }
 
 .info strong {
-  color: #00ffff;
-  text-shadow: 0 0 5px #00ffff;
+  color: var(--neon);
+  text-shadow: 0 0 5px var(--neon);
   font-weight: 600;
 }
 
 .info span {
   color: #fff;
-  text-shadow: 0 0 8px rgba(0,255,255,0.3);
+  text-shadow: 0 0 8px rgba(0, 229, 255, 0.35);
 }
 
-/* === GLOWING BUTTONS === */
+/* ==========================================================================
+   GLOWING BUTTONS
+   ========================================================================== */
 .glow-btn {
   background: transparent;
-  border: 2px solid #00ffff;
-  color: #00ffff;
-  font-size: 1.1em;
+  border: 2px solid var(--neon);
+  color: var(--neon);
+  font-size: 1.05em;
   padding: 12px 28px;
   border-radius: 8px;
   cursor: pointer;
@@ -182,13 +270,14 @@ p {
   margin: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-shadow: 0 0 10px #00ffff;
+  text-shadow: 0 0 10px var(--neon);
 }
 
-.glow-btn:hover {
-  background: rgba(0,255,255,0.15);
+.glow-btn:hover,
+.glow-btn:focus-visible {
+  background: rgba(0, 229, 255, 0.15);
   color: #fff;
-  box-shadow: 0 0 25px #00ffff;
+  box-shadow: 0 0 28px var(--neon);
   transform: translateY(-2px);
 }
 
@@ -198,22 +287,26 @@ p {
   flex-wrap: wrap;
 }
 
-/* === CONTACT FORM STYLING === */
+/* ==========================================================================
+   CONTACT FORM
+   ========================================================================== */
 #contact-form {
   max-width: 600px;
-  margin: 30px auto;
+  width: 100%;
+  margin: 30px auto 0 auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
 #contact-form label {
-  font-size: 1.1em;
-  color: #00ffff;
-  text-shadow: 0 0 10px #00ffff;
+  font-size: 1.05em;
+  color: var(--neon);
+  text-shadow: 0 0 10px var(--neon);
   font-weight: 600;
   margin-bottom: 5px;
   display: block;
+  text-align: left;
 }
 
 #contact-form input[type="text"],
@@ -221,8 +314,8 @@ p {
 #contact-form textarea {
   width: 100%;
   padding: 12px 15px;
-  background: rgba(255,255,255,0.05);
-  border: 2px solid rgba(0,255,255,0.3);
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(0, 229, 255, 0.3);
   border-radius: 8px;
   color: #fff;
   font-size: 1em;
@@ -230,13 +323,12 @@ p {
   backdrop-filter: blur(5px);
 }
 
-#contact-form input[type="text"]:focus,
-#contact-form input[type="email"]:focus,
+#contact-form input:focus,
 #contact-form textarea:focus {
   outline: none;
-  border-color: #00ffff;
-  box-shadow: 0 0 15px rgba(0,255,255,0.5);
-  background: rgba(255,255,255,0.1);
+  border-color: var(--neon);
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 #contact-form textarea {
@@ -247,8 +339,8 @@ p {
 
 #contact-form button {
   background: transparent;
-  border: 2px solid #00ffff;
-  color: #00ffff;
+  border: 2px solid var(--neon);
+  color: var(--neon);
   font-size: 1.1em;
   padding: 12px 28px;
   border-radius: 8px;
@@ -257,54 +349,77 @@ p {
   margin-top: 10px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  text-shadow: 0 0 10px #00ffff;
+  text-shadow: 0 0 10px var(--neon);
   align-self: center;
 }
 
-#contact-form button:hover {
-  background: rgba(0,255,255,0.15);
+#contact-form button:hover,
+#contact-form button:focus-visible {
+  background: rgba(0, 229, 255, 0.15);
   color: #fff;
-  box-shadow: 0 0 25px #00ffff;
+  box-shadow: 0 0 25px var(--neon);
   transform: translateY(-2px);
 }
 
-/* === FOOTER (Sticky Bottom) === */
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   text-align: center;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.75);
   font-size: 0.9em;
   letter-spacing: 0.5px;
-  padding: 15px 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(6px);
-  border-top: 1px solid rgba(0,255,255,0.2);
-  box-shadow: 0 -2px 15px rgba(0,255,255,0.15);
+  padding: 18px 0;
+  background: rgba(3, 8, 14, 0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(0, 229, 255, 0.2);
+  box-shadow: 0 -2px 15px rgba(0, 229, 255, 0.15);
   z-index: 10;
   animation: footerPulse 6s infinite ease-in-out;
+  margin-top: auto;
 }
 
 @keyframes footerPulse {
-  0%, 100% { box-shadow: 0 -2px 15px rgba(0,255,255,0.15); }
-  50% { box-shadow: 0 -4px 25px rgba(0,255,255,0.4); }
+  0%, 100% { box-shadow: 0 -2px 15px rgba(0, 229, 255, 0.15); }
+  50%      { box-shadow: 0 -4px 28px rgba(0, 229, 255, 0.4); }
 }
 
-/* === RESPONSIVE DESIGN === */
+/* ==========================================================================
+   RESPONSIVE DESIGN — desktop → tablet → mobile
+   ========================================================================== */
+
+/* Large desktop / wide monitors */
+@media (min-width: 1400px) {
+  .container {
+    padding: 60px;
+  }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+  .container {
+    margin: 120px auto 100px auto;
+    padding: 36px;
+  }
+}
+
+/* Small tablets / large phones */
 @media (max-width: 768px) {
   .container {
-    margin: 100px 20px 100px 20px;
-    padding: 25px;
+    margin: 100px 16px 100px 16px;
+    padding: 26px;
+    width: auto;
   }
 
   h1 {
-    font-size: 2.2em;
+    font-size: 2em;
   }
 
   .menu {
-    width: 200px;
+    width: 220px;
   }
 
   .menu a {
@@ -314,5 +429,37 @@ footer {
   .glow-btn {
     padding: 10px 20px;
     font-size: 1em;
+  }
+
+  footer {
+    font-size: 0.8em;
+  }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+  .container {
+    padding: 20px;
+    margin: 90px 10px 90px 10px;
+    border-radius: 14px;
+  }
+
+  h1 {
+    font-size: 1.6em;
+  }
+
+  h2 {
+    font-size: 1.2em;
+  }
+
+  .glow-btn,
+  #contact-form button {
+    width: 100%;
+    margin: 6px 0;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
