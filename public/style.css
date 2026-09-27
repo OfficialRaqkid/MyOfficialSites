@@ -10,14 +10,17 @@
 
 :root {
   --neon: #00e5ff;
-  --neon-soft: #66f2ff;
+  --neon-hot: #00aaff;
+  --neon-soft: #7cf3ff;
   --neon-dim: rgba(0, 229, 255, 0.3);
-  --bg-deep: #060b14;
-  --bg-mid: #0c1a2b;
-  --glass: rgba(255, 255, 255, 0.05);
-  --glass-border: rgba(0, 229, 255, 0.25);
+  --void: #000000;
+  --abyss: #010409;
+  --deep-blue: #041324;
+  --mid-blue: #06283f;
+  --glass: rgba(255, 255, 255, 0.04);
+  --glass-border: rgba(0, 229, 255, 0.28);
   --text-main: #f0fbff;
-  --text-soft: #cdeffb;
+  --text-soft: #c3e9f5;
   --max-content: 1200px;
 }
 
@@ -30,36 +33,35 @@ html, body {
 }
 
 /* ==========================================================================
-   BODY & GLOWING ANIMATED BACKGROUND
+   BODY & PULSING BLACK ↔ BLUE BACKGROUND
    ========================================================================== */
 body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   color: var(--text-main);
-  background: var(--bg-deep);
+  background: var(--void);
   position: relative;
   overflow-x: hidden;
 }
 
-/* Deep animated gradient wash */
+/* Core pulse: pure black breathing into deep neon blue and back */
 body::before {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -10%;
   z-index: -3;
-  background: linear-gradient(125deg, #050a14, #0b1c2f, #06283f, #0d3b52, #06131f);
-  background-size: 300% 300%;
-  animation: bgFlow 18s ease-in-out infinite;
+  background: radial-gradient(circle at 50% 40%, var(--deep-blue) 0%, var(--abyss) 55%, var(--void) 100%);
+  animation: voidPulse 8s ease-in-out infinite;
 }
 
-@keyframes bgFlow {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+@keyframes voidPulse {
+  0%   { background-color: var(--void); filter: brightness(0.7) saturate(1); }
+  50%  { background-color: var(--deep-blue); filter: brightness(1.15) saturate(1.3); }
+  100% { background-color: var(--void); filter: brightness(0.7) saturate(1); }
 }
 
-/* Floating glow orbs — the "glowing blue" effect */
+/* Roaming neon glow mass — the "cool/badass" glow */
 body::after {
   content: "";
   position: fixed;
@@ -67,36 +69,67 @@ body::after {
   z-index: -2;
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 20% 30%, rgba(0, 229, 255, 0.25), transparent 40%),
-    radial-gradient(circle at 80% 20%, rgba(0, 140, 255, 0.22), transparent 38%),
-    radial-gradient(circle at 50% 80%, rgba(0, 255, 234, 0.18), transparent 42%),
-    radial-gradient(circle at 90% 90%, rgba(0, 100, 255, 0.2), transparent 40%);
+    radial-gradient(circle at 20% 25%, rgba(0, 229, 255, 0.35), transparent 42%),
+    radial-gradient(circle at 82% 18%, rgba(0, 140, 255, 0.28), transparent 40%),
+    radial-gradient(circle at 50% 85%, rgba(0, 255, 234, 0.22), transparent 45%),
+    radial-gradient(circle at 90% 90%, rgba(0, 90, 255, 0.25), transparent 42%);
   background-repeat: no-repeat;
-  animation: orbDrift 14s ease-in-out infinite alternate;
-  filter: blur(10px);
+  mix-blend-mode: screen;
+  animation: orbDrift 10s ease-in-out infinite alternate, glowPulse 8s ease-in-out infinite;
+  filter: blur(14px);
 }
 
 @keyframes orbDrift {
   0%   { transform: translate3d(0, 0, 0) scale(1); }
-  50%  { transform: translate3d(2%, -3%, 0) scale(1.08); }
-  100% { transform: translate3d(-2%, 3%, 0) scale(1); }
+  50%  { transform: translate3d(3%, -4%, 0) scale(1.12); }
+  100% { transform: translate3d(-3%, 4%, 0) scale(1); }
 }
 
-/* Subtle particle grid overlay */
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.85; }
+}
+
+/* Fine scanline texture for a "tech / HUD" edge */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0px,
+    rgba(255, 255, 255, 0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.5;
+}
+
+/* Particle grid drifting slowly */
 .particles {
   position: fixed;
   inset: 0;
   z-index: -1;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(0, 229, 255, 0.12) 1px, transparent 1px);
   background-size: 46px 46px;
-  animation: floatGrid 22s linear infinite;
-  opacity: 0.5;
+  animation: floatGrid 24s linear infinite;
+  opacity: 0.6;
   pointer-events: none;
 }
 
 @keyframes floatGrid {
   from { background-position: 0 0; }
   to   { background-position: 46px 46px; }
+}
+
+/* Vignette to push focus to center and deepen the black edges */
+.vignette {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.85) 100%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -112,7 +145,7 @@ body::after {
   position: fixed;
   top: 20px;
   left: 20px;
-  background: rgba(6, 14, 24, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 2px solid var(--neon);
@@ -123,13 +156,14 @@ body::after {
   cursor: pointer;
   z-index: 100;
   transition: all 0.3s ease;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.35);
 }
 
 .menu-toggle:hover,
 .menu-toggle:focus-visible {
   color: #fff;
-  background: rgba(0, 229, 255, 0.12);
-  box-shadow: 0 0 18px var(--neon);
+  background: rgba(0, 229, 255, 0.15);
+  box-shadow: 0 0 22px var(--neon), 0 0 45px rgba(0, 229, 255, 0.5);
   outline: none;
 }
 
@@ -142,11 +176,11 @@ body::after {
   left: -280px;
   width: 260px;
   height: 100%;
-  background: rgba(4, 10, 18, 0.75);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  box-shadow: 5px 0 30px rgba(0, 229, 255, 0.25);
-  border-right: 2px solid rgba(0, 229, 255, 0.25);
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 5px 0 35px rgba(0, 229, 255, 0.3);
+  border-right: 2px solid rgba(0, 229, 255, 0.3);
   transition: left 0.4s ease;
   z-index: 99;
   padding-top: 90px;
@@ -162,7 +196,7 @@ body::after {
   color: var(--neon);
   text-decoration: none;
   font-weight: 600;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.4px;
   transition: 0.25s ease;
   border-left: 3px solid transparent;
 }
@@ -170,37 +204,42 @@ body::after {
 .menu a:hover,
 .menu a:focus-visible {
   color: #fff;
-  background: rgba(0, 229, 255, 0.15);
+  background: rgba(0, 229, 255, 0.18);
   border-left-color: var(--neon);
-  text-shadow: 0 0 10px var(--neon);
+  text-shadow: 0 0 12px var(--neon);
 }
 
 /* ==========================================================================
-   MAIN CONTAINER — desktop-first, scales down gracefully
+   MAIN CONTAINER
    ========================================================================== */
 .container {
   position: relative;
   z-index: 1;
   background: var(--glass);
   border: 1px solid var(--glass-border);
-  box-shadow: 0 0 30px rgba(0, 229, 255, 0.18), inset 0 0 40px rgba(0, 229, 255, 0.03);
+  box-shadow:
+    0 0 35px rgba(0, 229, 255, 0.22),
+    0 0 90px rgba(0, 140, 255, 0.12),
+    inset 0 0 45px rgba(0, 229, 255, 0.04);
   border-radius: 18px;
   padding: 48px;
   width: min(92%, var(--max-content));
   margin: 140px auto 120px auto;
   text-align: center;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   flex: 1;
 }
 
 .container:hover {
   transform: translateY(-4px);
-  box-shadow: 0 0 50px rgba(0, 229, 255, 0.3), inset 0 0 40px rgba(0, 229, 255, 0.05);
+  box-shadow:
+    0 0 55px rgba(0, 229, 255, 0.35),
+    0 0 120px rgba(0, 140, 255, 0.18),
+    inset 0 0 45px rgba(0, 229, 255, 0.06);
 }
 
-/* Optional desktop grid helper for multi-column content sections */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -213,18 +252,19 @@ body::after {
    HEADINGS
    ========================================================================== */
 h1 {
-  font-size: clamp(2em, 4vw, 2.8em);
-  text-shadow: 0 0 25px var(--neon);
+  font-size: clamp(2em, 4vw, 2.9em);
+  font-weight: 700;
+  text-shadow: 0 0 20px var(--neon), 0 0 50px rgba(0, 229, 255, 0.4);
   margin-bottom: 25px;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 }
 
 h2 {
   font-size: clamp(1.3em, 2.5vw, 1.7em);
   color: var(--neon);
   margin-bottom: 15px;
-  text-shadow: 0 0 10px var(--neon);
-  border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+  text-shadow: 0 0 12px var(--neon);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.35);
   display: inline-block;
   padding-bottom: 6px;
 }
@@ -246,20 +286,21 @@ p {
 
 .info strong {
   color: var(--neon);
-  text-shadow: 0 0 5px var(--neon);
+  text-shadow: 0 0 6px var(--neon);
   font-weight: 600;
 }
 
 .info span {
   color: #fff;
-  text-shadow: 0 0 8px rgba(0, 229, 255, 0.35);
+  text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
 }
 
 /* ==========================================================================
    GLOWING BUTTONS
    ========================================================================== */
 .glow-btn {
-  background: transparent;
+  position: relative;
+  background: rgba(0, 229, 255, 0.05);
   border: 2px solid var(--neon);
   color: var(--neon);
   font-size: 1.05em;
@@ -269,15 +310,29 @@ p {
   transition: all 0.3s ease;
   margin: 10px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   text-shadow: 0 0 10px var(--neon);
+  overflow: hidden;
+}
+
+.glow-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent, rgba(0, 229, 255, 0.35), transparent);
+  transform: translateX(-120%);
+  transition: transform 0.5s ease;
+}
+
+.glow-btn:hover::before {
+  transform: translateX(120%);
 }
 
 .glow-btn:hover,
 .glow-btn:focus-visible {
   background: rgba(0, 229, 255, 0.15);
   color: #fff;
-  box-shadow: 0 0 28px var(--neon);
+  box-shadow: 0 0 30px var(--neon), 0 0 60px rgba(0, 229, 255, 0.4);
   transform: translateY(-2px);
 }
 
@@ -314,8 +369,8 @@ p {
 #contact-form textarea {
   width: 100%;
   padding: 12px 15px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(0, 229, 255, 0.3);
+  background: rgba(0, 0, 0, 0.35);
+  border: 2px solid rgba(0, 229, 255, 0.35);
   border-radius: 8px;
   color: #fff;
   font-size: 1em;
@@ -327,8 +382,8 @@ p {
 #contact-form textarea:focus {
   outline: none;
   border-color: var(--neon);
-  box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
-  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.55);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 #contact-form textarea {
@@ -338,7 +393,7 @@ p {
 }
 
 #contact-form button {
-  background: transparent;
+  background: rgba(0, 229, 255, 0.05);
   border: 2px solid var(--neon);
   color: var(--neon);
   font-size: 1.1em;
@@ -348,7 +403,7 @@ p {
   transition: all 0.3s ease;
   margin-top: 10px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   text-shadow: 0 0 10px var(--neon);
   align-self: center;
 }
@@ -357,7 +412,7 @@ p {
 #contact-form button:focus-visible {
   background: rgba(0, 229, 255, 0.15);
   color: #fff;
-  box-shadow: 0 0 25px var(--neon);
+  box-shadow: 0 0 28px var(--neon), 0 0 55px rgba(0, 229, 255, 0.4);
   transform: translateY(-2px);
 }
 
@@ -372,33 +427,31 @@ footer {
   font-size: 0.9em;
   letter-spacing: 0.5px;
   padding: 18px 0;
-  background: rgba(3, 8, 14, 0.55);
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(0, 229, 255, 0.2);
-  box-shadow: 0 -2px 15px rgba(0, 229, 255, 0.15);
+  border-top: 1px solid rgba(0, 229, 255, 0.25);
+  box-shadow: 0 -2px 18px rgba(0, 229, 255, 0.18);
   z-index: 10;
   animation: footerPulse 6s infinite ease-in-out;
   margin-top: auto;
 }
 
 @keyframes footerPulse {
-  0%, 100% { box-shadow: 0 -2px 15px rgba(0, 229, 255, 0.15); }
-  50%      { box-shadow: 0 -4px 28px rgba(0, 229, 255, 0.4); }
+  0%, 100% { box-shadow: 0 -2px 18px rgba(0, 229, 255, 0.18); }
+  50%      { box-shadow: 0 -4px 32px rgba(0, 229, 255, 0.45); }
 }
 
 /* ==========================================================================
    RESPONSIVE DESIGN — desktop → tablet → mobile
    ========================================================================== */
 
-/* Large desktop / wide monitors */
 @media (min-width: 1400px) {
   .container {
     padding: 60px;
   }
 }
 
-/* Tablets */
 @media (max-width: 992px) {
   .container {
     margin: 120px auto 100px auto;
@@ -406,7 +459,6 @@ footer {
   }
 }
 
-/* Small tablets / large phones */
 @media (max-width: 768px) {
   .container {
     margin: 100px 16px 100px 16px;
@@ -436,7 +488,6 @@ footer {
   }
 }
 
-/* Phones */
 @media (max-width: 480px) {
   .container {
     padding: 20px;
